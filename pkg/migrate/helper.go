@@ -5,6 +5,7 @@ import (
 	"bytes"
 
 	"emperror.dev/errors"
+	log "github.com/sirupsen/logrus"
 )
 
 func SplitNewLineByteBuffer(datas *bytes.Buffer) (dataSplited [][]byte, err error) {
@@ -13,17 +14,14 @@ func SplitNewLineByteBuffer(datas *bytes.Buffer) (dataSplited [][]byte, err erro
 	dataSplited = make([][]byte, 0)
 
 	for scanner.Scan() {
-		dataSplited = append(dataSplited, scanner.Bytes())
+		dataSplited = append(dataSplited, []byte(scanner.Text()))
 	}
 
 	if err = scanner.Err(); err != nil {
 		return nil, errors.Wrap(err, "Error when split exported objects")
 	}
 
-	// Remove last line that content what is export
-	if len(dataSplited) > 0 {
-		dataSplited = dataSplited[:len(dataSplited)-1]
-	}
+	log.Infof("Found %d exported objects", len(dataSplited))
 
 	return dataSplited, nil
 }

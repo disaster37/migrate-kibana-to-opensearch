@@ -15,21 +15,26 @@ func ExportDashboards(dashboards []string, userSpace string, kbClient *kibana.Cl
 	log.Debug("Dashboards: ", dashboards)
 	log.Debug("UserSpace: ", userSpace)
 
-	var objects []map[string]string
+	var (
+		objects     []map[string]string
+		objectTypes []string
+	)
 
 	if len(dashboards) > 0 {
-		objects = make([]map[string]string, len(dashboards))
+		objects = make([]map[string]string, 0, len(dashboards))
 		for _, dashboardId := range dashboards {
 			objects = append(objects, map[string]string{
 				"type": "dashboard",
 				"id":   dashboardId,
 			})
 		}
+	} else {
+		objectTypes = []string{"dashboard"}
 	}
 
 	// Exports all dashboard and includes all references
 	exportByte, err := kbClient.API.KibanaSavedObject.Export(
-		[]string{"dashboard"},
+		objectTypes,
 		objects,
 		true,
 		userSpace,

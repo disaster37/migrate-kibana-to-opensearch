@@ -1,7 +1,9 @@
 package main
 
 import (
-	"github.com/davecgh/go-spew/spew"
+	"bytes"
+
+	"github.com/disaster37/migrate-kibana-to-opensearch/pkg/dashboard"
 	"github.com/disaster37/migrate-kibana-to-opensearch/pkg/kibana"
 	"github.com/disaster37/migrate-kibana-to-opensearch/pkg/migrate"
 	"github.com/urfave/cli/v2"
@@ -36,8 +38,19 @@ func migrateDashboard(c *cli.Context) error {
 		}
 		convertedDatas = append(convertedDatas, convertedData)
 	}
+	finalDatas := bytes.Join(convertedDatas, []byte("\n"))
 
-	spew.Print(convertedDatas)
+	// Get Dashboard client
+	dashboardClient, err := dashboard.ManageOpensearchGlobalParameters(c)
+	if err != nil {
+		return err
+	}
+	dashboardClient.Client.SetHeader("osd-xsrf", "true")
+
+	// Import objects on Opensearch
+	if err = dashboard.ImportDashboards(finalDatas, c.String("space"), dashboardClient); err != nil {
+		return err
+	}
 
 	return nil
 }

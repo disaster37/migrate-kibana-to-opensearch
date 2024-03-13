@@ -9,7 +9,7 @@ type Object struct {
 	Type                 string           `json:"type,omitempty"`
 	UpdatedAt            string           `json:"updatedAt,omitempty"`
 	Version              string           `json:"version,omitempty"`
-	References           []any            `json:"references,omitempty"`
+	References           []map[string]any `json:"references,omitempty"`
 	OriginId             string           `json:"originId,omitempty"`
 }
 
