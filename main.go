@@ -81,9 +81,8 @@ func run(args []string) error {
 	}
 	app.Commands = []*cli.Command{
 		{
-			Name:     "migrate-dashboard",
-			Usage:    "Migrate dahsboards from Kibana to Opensearch Dashboard",
-			Category: "ILM policy actions",
+			Name:  "migrate-dashboard",
+			Usage: "Migrate dahsboards from Kibana to Opensearch Dashboard",
 			Flags: []cli.Flag{
 				&cli.StringSliceFlag{
 					Name:  "dashboard-id",
@@ -91,7 +90,7 @@ func run(args []string) error {
 				},
 				&cli.StringFlag{
 					Name:  "space",
-					Usage: "The Kibana space where export dahsboards",
+					Usage: "The Kibana space where export dahsboards. If not provided is use default/global space/tenant",
 				},
 			},
 			Action: migrateDashboard,
