@@ -25,6 +25,11 @@ func ImportDashboards(data []byte, tenant string, kbClient *kibana.Client) (err 
 		return err
 	}
 
+	if _, ok := res["errors"]; ok {
+		log.Error(string(b))
+		return errors.New("Error when import dashboards on Opensearch")
+	}
+
 	log.Info(string(b))
 
 	return nil

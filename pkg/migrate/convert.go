@@ -57,7 +57,38 @@ func ConvertObjectFromElasticsearchToOpensearch(data []byte) (dataConverted []by
 			log.Infof("Patch version for object '%s' of type '%s'", o.Id, o.Type)
 			o.MigrationVersion.Search = "7.9.3"
 			o.CoreMigrationVersion = "7.9.3"
+
+			// Remove grid property
+			if _, ok := o.Attributes["grid"]; ok {
+				delete(o.Attributes, "grid")
+				log.Infof("Remove 'grid' for object '%s' of type '%s'", o.Id, o.Type)
+			}
+
+			// Remove hideChart property
+			if _, ok := o.Attributes["hideChart"]; ok {
+				delete(o.Attributes, "hideChart")
+				log.Infof("Remove 'hideChart' for object '%s' of type '%s'", o.Id, o.Type)
+			}
+
+			// Remove isTextBasedQuery property
+			if _, ok := o.Attributes["isTextBasedQuery"]; ok {
+				delete(o.Attributes, "isTextBasedQuery")
+				log.Infof("Remove 'isTextBasedQuery' for object '%s' of type '%s'", o.Id, o.Type)
+			}
+
+			// Remove timeRestore property
+			if _, ok := o.Attributes["timeRestore"]; ok {
+				delete(o.Attributes, "timeRestore")
+				log.Infof("Remove 'timeRestore' for object '%s' of type '%s'", o.Id, o.Type)
+			}
+
+			// Remove usesAdHocDataView property
+			if _, ok := o.Attributes["usesAdHocDataView"]; ok {
+				delete(o.Attributes, "usesAdHocDataView")
+				log.Infof("Remove 'usesAdHocDataView' for object '%s' of type '%s'", o.Id, o.Type)
+			}
 		}
+
 	case "visualization":
 		currentVersion, err := version.NewVersion(o.MigrationVersion.Visualization)
 		if err != nil {
