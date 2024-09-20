@@ -45,10 +45,9 @@ func migrateDashboard(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	dashboardClient.Client.SetHeader("osd-xsrf", "true")
 
 	// Import objects on Opensearch
-	if err = dashboard.ImportDashboards(finalDatas, c.String("space"), dashboardClient); err != nil {
+	if err = dashboard.ImportDashboards(finalDatas, c.String("tenant"), dashboardClient); err != nil {
 		return err
 	}
 

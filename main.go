@@ -90,7 +90,11 @@ func run(args []string) error {
 				},
 				&cli.StringFlag{
 					Name:  "space",
-					Usage: "The Kibana space where export dahsboards. If not provided is use default/global space/tenant",
+					Usage: "The Kibana space from export dahsboards. If not provided is use public space (source)",
+				},
+				&cli.StringFlag{
+					Name:  "tenant",
+					Usage: "The Opensearch dashboard tenant where import dahsboards. If not provided is use global tenant (target)",
 				},
 			},
 			Action: migrateDashboard,

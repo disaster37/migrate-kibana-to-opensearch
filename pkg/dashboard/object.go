@@ -4,18 +4,14 @@ import (
 	"encoding/json"
 
 	"emperror.dev/errors"
-	"github.com/disaster37/go-kibana-rest/v8"
+	opensearchdashboard "github.com/disaster37/opensearch-dashboard/v2"
+	"github.com/disaster37/opensearch-dashboard/v2/api"
 	log "github.com/sirupsen/logrus"
 )
 
-func ImportDashboards(data []byte, tenant string, kbClient *kibana.Client) (err error) {
+func ImportDashboards(data []byte, tenant string, dbClient opensearchdashboard.Client) (err error) {
 
-	if tenant == "" || tenant == "default" {
-		kbClient.Client.SetHeader("securitytenant", "global")
-	} else {
-		kbClient.Client.SetHeader("securitytenant", tenant)
-	}
-	res, err := kbClient.API.KibanaSavedObject.Import(data, true, "")
+	res, err := dbClient.SavedObject().Import(tenant, api.SavedObjectImportOption{Overwrite: true}, data)
 	if err != nil {
 		return errors.Wrap(err, "Error when import objects on Opensearch")
 	}
