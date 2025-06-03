@@ -52,7 +52,7 @@ func ConvertObjectFromElasticsearchToOpensearch(data []byte) (dataConverted []by
 		if err != nil {
 			return nil, err
 		}
-		maxVersion, err := version.NewVersion("7.9.3")
+		maxVersion, err := version.NewVersion("7.9.0")
 		if err != nil {
 			return nil, err
 		}
