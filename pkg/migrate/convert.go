@@ -24,6 +24,9 @@ func ConvertObjectFromElasticsearchToOpensearch(data []byte) (dataConverted []by
 	case "map":
 		log.Warnf("Found object '%s' of type 'map'. We exclude it from import because is not supported on Opensearch", o.Id)
 		return nil, nil
+	case "tag":
+		log.Warnf("Found object '%s' of type 'tag'. We exclude it from import because is not supported on Opensearch", o.Id)
+		return nil, nil
 	case "index-pattern":
 		currentVersion, err := version.NewVersion(o.MigrationVersion.IndexPattern)
 		if err != nil {
